@@ -13,7 +13,7 @@
     "types"
   ],
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --port 9999",
     "build": "tsc && vite build"
   },
   "dependencies": {
