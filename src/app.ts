@@ -1,6 +1,6 @@
 import { LitElement, html, CSSResultGroup } from 'lit';
 import { customElement, query, state } from 'lit/decorators.js';
-import { todoAppStyles } from './index.styles';
+import { todoAppStyles } from './app.styles';
 import { classMap } from 'lit/directives/class-map.js';
 import { styleMap } from 'lit/directives/style-map.js';
 
