@@ -96,7 +96,7 @@ export const todoAppStyles = css`
   .task-wrapper::after {
     background-color: inherit;
     content: '';
-    top: 100%;
+    top: 99%;
     left: 0;
     right: 0;
     position: absolute;
@@ -134,5 +134,21 @@ export const todoAppStyles = css`
   button:hover {
     background-color: #0eb0e2;
     cursor: pointer;
+  }
+  @media screen and (max-width: 768px) {
+    .tasks-container {
+      width: 100%;
+      min-width: unset;
+      max-width: unset;
+      padding: 1rem 2rem 3rem;
+    }
+    .task-wrapper {
+      padding: 1rem;
+      border-radius: 2rem 0 0;
+    }
+    .task-wrapper:last-of-type {
+      padding-bottom: 1rem;
+      border-bottom-right-radius: 2rem;
+    }
   }
 `;

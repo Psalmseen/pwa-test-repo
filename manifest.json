@@ -1,0 +1,16 @@
+{
+  "name": "Todo Application",
+  "short_name": "Todo",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#003748",
+  "theme_color": "#003748",
+  "icons": [
+    {
+      "src": "icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

@@ -2,20 +2,33 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <meta name="theme-color" content="#f00" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <link rel="manifest" href="/manifest.json" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Todo app</title>
+    <style>
+      body {
+        margin: 0;
+      }
+      #btn-add {
+        display: none;
+      }
+    </style>
     <script>
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
           navigator.serviceWorker.register('./sw.js');
+          console.log('window loaded');
         });
       }
     </script>
+    <script defer src="./sw-config.js"></script>
     <script type="module" src="/src/app.ts"></script>
   </head>
   <body>
     <todo-app></todo-app>
+
+    <div id="btn-add">Add to home screen</div>
   </body>
 </html>
