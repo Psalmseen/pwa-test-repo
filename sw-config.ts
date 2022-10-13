@@ -1,5 +1,5 @@
-const btnAdd = document.querySelector('#btn-add');
-let deferredPrompt;
+const btnAdd = document.querySelector('#btn-add') as HTMLElement;
+let deferredPrompt: any;
 
 window.addEventListener('beforeinstallprompt', (e) => {
   e.preventDefault();
@@ -13,7 +13,7 @@ btnAdd.addEventListener('click', (e) => {
   deferredPrompt.prompt();
   deferredPrompt.userChoice.then((choiceResult) => {
     if (choiceResult.outcome === 'accepted') {
-      console.log('Yah!!! we rock');
+      // Line of code to execute when the user accept to install the app
     }
     deferredPrompt = null;
   });
