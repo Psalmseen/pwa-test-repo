@@ -1,4 +1,4 @@
-const btnAdd = document.querySelector('#btn-add');
+const btnAdd = document.querySelector('#btn-add') as HTMLElement;
 let deferredPrompt;
 
 window.addEventListener('beforeinstallprompt', (e) => {
