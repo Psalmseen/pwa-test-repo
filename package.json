@@ -18,7 +18,7 @@
     "esbuild": "esbuild --outfile=sw.js --bundle sw.ts",
     "workbox": "workbox injectManifest workbox-config.cjs",
     "build": "npm run vite:build && npm run esbuild && npm run workbox",
-    "serve": "npm run build && vite preview"
+    "serve": "npm run build && vite preview --port 4174"
   },
   "dependencies": {
     "lit": "^2.3.1",

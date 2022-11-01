@@ -123,7 +123,12 @@ export const todoAppStyles = css`
   textarea {
     min-height: 7em;
   }
-  button {
+  .add-img {
+    background-color: #fff;
+    text-align: center;
+  }
+  button,
+  .add-img {
     padding: 1rem;
     text-transform: capitalize;
     font-size: 1.2rem;
@@ -131,7 +136,47 @@ export const todoAppStyles = css`
     border-radius: 4px;
     outline: none;
   }
-  button:hover {
+  button:hover,
+  .add-img:hover {
+    background-color: #0eb0e2;
+    cursor: pointer;
+  }
+  .select__img__modal {
+    display: flex;
+    justify-content: space-around;
+    background-color: #0eb0e2;
+    padding: 1rem;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+  }
+  .select__img__modal > div {
+    cursor: pointer;
+  }
+  .d-none {
+    display: none !important;
+  }
+  .task-img {
+    display: block;
+    height: 15rem;
+
+    object-fit: cover;
+    object-position: center;
+  }
+  .capture-modal {
+    position: absolute;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 1rem auto;
+    top: 0;
+    gap: 2rem;
+  }
+  #snap {
+    padding: 1rem 2rem;
+    border-radius: 0.5rem;
     background-color: #0eb0e2;
     cursor: pointer;
   }
