@@ -75,8 +75,6 @@ export class TodoApp extends LitElement {
   async handleUploadImagefromCamera() {
     this.toggleIsCaptureModalShown();
 
-    const snap = this.shadowRoot?.querySelector('#snap');
-
     const constrains = {
       audio: false,
       video: {
