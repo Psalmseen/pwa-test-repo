@@ -7,6 +7,10 @@
     <link rel="apple-touch-icon" href="./public/icon-512x512.png" />
     <link rel="manifest" href="/manifest.json" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="./node_modules/cropperjs/dist/cropper.min.css"
+    />
     <title>Todo app</title>
     <style>
       body {
@@ -34,11 +38,12 @@
       }
     </script>
     <script defer type="module" src="./sw-config.ts"></script>
-    <script type="module" src="/src/app.ts"></script>
   </head>
   <body>
     <todo-app></todo-app>
 
     <div id="btn-add">Add to home screen</div>
+    <script type="module" src="/src/app.ts"></script>
+    <script type="./node"></script>
   </body>
 </html>

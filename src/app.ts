@@ -3,12 +3,14 @@ import { customElement, query, state } from 'lit/decorators.js';
 import { todoAppStyles } from './app.styles';
 import { classMap } from 'lit/directives/class-map.js';
 import { styleMap } from 'lit/directives/style-map.js';
+import Cropper from 'cropperjs';
 import gallery from './gallery.svg';
 import camera from './camera.svg';
-
+import { cropperStyles } from './cropperjs.styles';
 @customElement('todo-app')
 export class TodoApp extends LitElement {
-  static styles: CSSResultGroup = todoAppStyles;
+  static styles: CSSResultGroup = [todoAppStyles, cropperStyles];
+
   @state() isModalOpen = false;
   @state() tasks: {
     id: number;
@@ -40,13 +42,36 @@ export class TodoApp extends LitElement {
     '#9F336D',
     '#EB3B8C',
   ];
+  @state() stream!: MediaStream;
   @state() imageUrl: string | ArrayBuffer = '';
   @state() isAddImageModalShown = false;
   @state() isCaptureModalShown = false;
+  @state() cropper!: any;
+  @state() isCropperOpen = false;
   @query('#task') task!: HTMLInputElement;
   @query('#date') date!: HTMLInputElement;
   @query('#task-desc') taskDesc!: HTMLTextAreaElement;
   @query('#video') video!: HTMLVideoElement;
+  @query('#cropper-img') cropperImg!: HTMLImageElement;
+
+  useCropper() {
+    this.toggleisCropperOpen();
+    this.cropper = new Cropper(this.cropperImg, {
+      aspectRatio: 1,
+      wheelZoomRatio: 0,
+      movable: false,
+      dragMode: 'none',
+      cropBoxResizable: false,
+      responsive: false,
+      background: true,
+      // zoomable: false,
+      scalable: true,
+      data: {
+        width: 600,
+        height: 600,
+      },
+    });
+  }
   toggleAddImageModalShown() {
     this.isAddImageModalShown = !this.isAddImageModalShown;
   }
@@ -59,6 +84,12 @@ export class TodoApp extends LitElement {
     this.date.value = '';
     this.taskDesc.value = '';
     this.imageUrl = '';
+  }
+  toggleisCropperOpen() {
+    if (this.isCropperOpen) {
+      this.cropperImg.src = '';
+    }
+    this.isCropperOpen = !this.isCropperOpen;
   }
   handleSunmit(e: Event) {
     e.preventDefault();
@@ -74,7 +105,6 @@ export class TodoApp extends LitElement {
   }
   async handleUploadImagefromCamera() {
     this.toggleIsCaptureModalShown();
-
     const constrains = {
       audio: false,
       video: {
@@ -84,21 +114,27 @@ export class TodoApp extends LitElement {
     };
     try {
       const stream = await navigator.mediaDevices.getUserMedia(constrains);
+      this.stream = stream;
       this.video.srcObject = stream;
     } catch (error) {
       console.error('error:', error);
     }
     this.toggleAddImageModalShown();
   }
-  snap() {
-    console.log('Snap clicked');
+  async snap() {
     const canvas = this.shadowRoot?.querySelector(
       '#canvas'
     ) as HTMLCanvasElement;
-    var context = canvas.getContext('2d');
-    context?.drawImage(this.video, 0, 0, 1600, 1600);
-    this.imageUrl = canvas.toDataURL();
-    this.toggleIsCaptureModalShown();
+    try {
+      var context = canvas.getContext('2d');
+      context?.drawImage(this.video, 0, 0, 1600, 1600);
+      this.cropperImg.src = canvas.toDataURL();
+      this.useCropper();
+      this.stream.getTracks().forEach((track) => track.stop());
+      this.toggleIsCaptureModalShown();
+    } catch (error) {
+      console.log(error);
+    }
   }
   handleUploadImagefromGallery() {
     const input = document.createElement('input');
@@ -108,13 +144,21 @@ export class TodoApp extends LitElement {
     input.addEventListener('change', async ({ target: { files } }: any) => {
       const reader = new FileReader();
       reader.addEventListener('load', () => {
-        this.imageUrl = reader.result || '';
+        this.cropperImg.src = (reader.result as string) || '';
+        this.useCropper();
       });
       reader.readAsDataURL(files[0]);
     });
 
     input.click();
     this.toggleAddImageModalShown();
+  }
+  handleCrop() {
+    const croppedImg = this.cropper.getCroppedCanvas().toDataURL();
+    this.imageUrl = croppedImg;
+    this.cropper.destroy();
+    this.cropperImg.src = '';
+    this.toggleisCropperOpen();
   }
 
   protected render(): unknown {
@@ -195,6 +239,14 @@ export class TodoApp extends LitElement {
         <div id="snap" @click=${this.snap}>Capture</div>
       </div>
       <!-- Video modal ends -->
+      <!-- Modal for cropper -->
+      <div
+        class=${classMap({ 'crp-wrap': true, 'd-none': !this.isCropperOpen })}
+      >
+        <img id="cropper-img" />
+        <button @click=${this.handleCrop}>Done</button>
+      </div>
+      <!-- End Modal for croper -->
       <div
         @click="${this.toggleMobileOpen}"
         class=${classMap({ add: true, close: this.isModalOpen })}

@@ -161,11 +161,11 @@ export const todoAppStyles = css`
     display: block;
     height: 15rem;
 
-    object-fit: cover;
+    object-fit: contain;
     object-position: center;
   }
   .capture-modal {
-    position: absolute;
+    position: fixed;
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -179,6 +179,24 @@ export const todoAppStyles = css`
     border-radius: 0.5rem;
     background-color: #0eb0e2;
     cursor: pointer;
+  }
+  #cropper-img {
+    display: block;
+    width: 50%;
+  }
+  .crp-wrap {
+    border: 1px solid red;
+    position: fixed;
+    max-width: 100%;
+    height: 50vmin;
+    width: 50vmin;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+  }
+  .crp-wrap button {
+    margin-top: 1rem;
   }
   @media screen and (max-width: 768px) {
     .tasks-container {
